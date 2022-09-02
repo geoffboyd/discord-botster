@@ -94,9 +94,10 @@ client.on('messageCreate', message => {
     return
   }
 
-
   let args = message.content.trim().toLowerCase().split(' ');
   let commandAttempt = args[0].substring(1);
+  
+  if (commandAttempt === 'servers') { return message.channel.send('Right now, I am active on ' + client.guilds.cache.size + ' servers.'); }
 
   if (message.content.includes('audio') || message.content.includes('tech') || message.content.includes('excuse')) {
     let thisCommand = require(`./modules/jargon.js`);
