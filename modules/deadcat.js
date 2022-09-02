@@ -9,5 +9,6 @@ module.exports = {
         setTimeout(() => msg.delete(), 2000);
       })
     }
+    return;
   },
 };

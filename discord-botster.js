@@ -65,16 +65,16 @@ client.on('messageCreate', message => {
     if (randomFuckery !== 10 && !triggerWords.some(e => message.content.toLowerCase().includes(e))) { return };
   }
 
-  if (message.content.toLowerCase().includes(botName.toLowerCase()) || randomFuckery === 10) {
+  if (!message.content.startsWith(prefix) && (message.content.toLowerCase().includes(botName.toLowerCase()) || randomFuckery === 10)) {
     //Markov chain triggers here
-    let args = message.content.split(' ');
+    let markovArgs = message.content.split(' ');
     let startWord = message.author.username;
-    let phraseLength = (Math.ceil(Math.random()*((args.length + 10)*2)));
-    if (args[1]) {
-      if (args[1].toLowerCase().includes(botName.toLowerCase())) {
-        startWord = args[0];
+    let phraseLength = (Math.ceil(Math.random()*((markovArgs.length + 10)*2)));
+    if (markovArgs[1]) {
+      if (markovArgs[1].toLowerCase().includes(botName.toLowerCase())) {
+        startWord = markovArgs[0];
       } else {
-        startWord = args[Math.floor(Math.random()*args.length)];
+        startWord = markovArgs[Math.floor(Math.random()*args.length)];
       }
     }
 
@@ -94,7 +94,9 @@ client.on('messageCreate', message => {
     return
   }
 
-  args = message.content.trim().toLowerCase().split(' ');
+
+  let args = message.content.trim().toLowerCase().split(' ');
+  let commandAttempt = args[0].substring(1);
 
   if (message.content.includes('audio') || message.content.includes('tech') || message.content.includes('excuse')) {
     let thisCommand = require(`./modules/jargon.js`);
@@ -103,8 +105,7 @@ client.on('messageCreate', message => {
              : 'excuse'
     return thisCommand.execute(message, args, type);
   }
-
-  let commandAttempt = args[0].substring(1);
+  
   if (!commandNames.includes(commandAttempt)){ return console.log('\x1b[31m%s\x1b[0m', `${message.author.username} attempted to use a command that doesn't exist: ${commandAttempt}`) }
   const commandToRun = require(`./modules/${commandAttempt}.js`);
   commandToRun.execute(message, args, commandNames);

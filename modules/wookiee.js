@@ -1,8 +1,9 @@
-module.exports = { 
-    name: 'wookiee', 
-    description: 'Translate text into Wookiee', 
+module.exports = {
+    name: 'wookiee',
+    description: 'Translate text into Wookiee',
     execute(msg, args) {
-    	var charCodes=new Array(55); 
+      args.shift();
+    	var charCodes=new Array(55);
 		charCodes["a"]="ra";
 		charCodes["b"]="rh";
 		charCodes["c"]="oa";

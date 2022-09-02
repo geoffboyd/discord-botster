@@ -1,5 +1,6 @@
 module.exports = {
   getcontent(msg, args, type) {
+    args.shift();
     const SQLite = require("better-sqlite3");
     const db = new SQLite('./db/userinputs.sqlite');
     // Check if the table "userinputs" exists and has content from this guild.

@@ -3,6 +3,9 @@ module.exports = {
 	description: 'Reloads a command',
 	args: true,
 	execute(message, args, commandNames) {
+		const secret = require("./secret.json");
+		if (!message.author.id == secret.owner) { return }
+		if (!args[1]) { return message.channel.send("You didn't provide a command name to reload"); }
 		const command = args[1].toLowerCase();
 
 		if (!commandNames.includes(command)) {
