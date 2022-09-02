@@ -15,18 +15,11 @@ module.exports = {
       db.pragma("synchronous = 1");
       db.pragma("journal_mode = wal");
     }
-    if (isNaN(args[0])) {
-      msg.channel.send("You didn't enter an ID number");
-    } else {
-      const item = db.prepare("SELECT * FROM userinputs WHERE row = ?;").get(args[0]);
-      if (item.guild == msg.guild.id && msg.member.roles.cache.has('ADMINISTRATOR')) {
-        db.prepare("DELETE FROM userinputs WHERE row = ?").run(args[0]);
-        msg.channel.send('Item deleted!');
-      } else if (!msg.author.id == msg.guild.ownerID) {
-        msg.channel.send('Only admins can use this function.');
-      } else {
-        msg.channel.send("You can only delete items from this server.");
-      }
-    }
+    if (!msg.member.roles.cache.has('ADMINISTRATOR')) { return msg.channel.send('Only admins can use this function.'); }
+    if (isNaN(args[0])) { return msg.channel.send("You didn't enter an ID number"); }
+    const item = db.prepare("SELECT * FROM userinputs WHERE row = ?;").get(args[0]);
+    if (item.channel !== msg.guild.id) { return msg.channel.send("You can only delete items from this server."); }
+    db.prepare("DELETE FROM userinputs WHERE row = ?").run(args[0]);
+    msg.channel.send('Item deleted!');
   },
 };
