@@ -4,7 +4,8 @@ module.exports = {
 	args: true,
 	execute(message, args, commandNames) {
 		const secret = require("./secret.json");
-		if (!message.author.id == secret.owner) { return }
+		console.log(`Message Author ID: ${message.author.id}, Owner ID: ${secret.owner}`);
+		if (message.author.id !== secret.owner) { return }
 		if (!args[1]) { return message.channel.send("You didn't provide a command name to reload"); }
 		const command = args[1].toLowerCase();
 

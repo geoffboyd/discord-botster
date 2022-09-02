@@ -65,7 +65,7 @@ client.on('messageCreate', message => {
     if (randomFuckery !== 10 && !triggerWords.some(e => message.content.toLowerCase().includes(e))) { return };
   }
 
-  if (!message.content.startsWith(prefix) && (message.content.toLowerCase().includes(botName.toLowerCase()) || randomFuckery === 10)) {
+  if (!message.content.startsWith(prefix) && ((message.content.toLowerCase().includes(botName.toLowerCase()) || randomFuckery === 10))) {
     //Markov chain triggers here
     let markovArgs = message.content.split(' ');
     let startWord = message.author.username;
@@ -105,7 +105,7 @@ client.on('messageCreate', message => {
              : 'excuse'
     return thisCommand.execute(message, args, type);
   }
-  
+
   if (!commandNames.includes(commandAttempt)){ return console.log('\x1b[31m%s\x1b[0m', `${message.author.username} attempted to use a command that doesn't exist: ${commandAttempt}`) }
   const commandToRun = require(`./modules/${commandAttempt}.js`);
   commandToRun.execute(message, args, commandNames);
