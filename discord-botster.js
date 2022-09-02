@@ -6,7 +6,7 @@
 | |_) | (_) | |_\__ \ ||  __/ |
 |_.__/ \___/ \__|___/\__\___|_|
 
-IRC botster v1.0
+Discord botster v1.0rc
 */
 
 const fs = require('fs');
