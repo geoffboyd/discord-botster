@@ -12,10 +12,10 @@ module.exports = {
       db.pragma("synchronous = 1");
       db.pragma("journal_mode = wal");
     }
-    var addInputs = db.prepare("INSERT INTO userinputs (user, channel, type, content, lastUsed, dateAdded) VALUES (@user, @channel, @type, @content, @lastUsed, @dateAdded);");
-    var type = contentType;
-    var content = msg.content.split(' ');
-    var date = Math.floor(new Date() / 1000);
+    let addInputs = db.prepare("INSERT INTO userinputs (user, channel, type, content, lastUsed, dateAdded) VALUES (@user, @channel, @type, @content, @lastUsed, @dateAdded);");
+    let type = contentType;
+    let content = msg.content.split(' ');
+    let date = Math.floor(new Date() / 1000);
     content.shift();
     content = content.join(' ');
     const dbObject = { user: msg.member.user.tag, channel: msg.guild.id, type: `${contentType}`, content: `${content}`, lastUsed: `${date}`, dateAdded: `$date}` };

@@ -24,7 +24,7 @@ module.exports = {
 	    	let draconicPhrase = [];
 			for (c=0; c<words.length; c++) {
 	   			//check for word mapping in DB, if found, add to draconicPhrase array
-   				var dracWord = fantasylang.prepare(`SELECT * FROM draconic WHERE common = '${words[c]}';`).get();
+   				let dracWord = fantasylang.prepare(`SELECT * FROM draconic WHERE common = '${words[c]}';`).get();
    				if (dracWord){
 					draconicPhrase.push(dracWord['draconic']);
 				} else {
