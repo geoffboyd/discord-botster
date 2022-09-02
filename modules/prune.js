@@ -2,6 +2,7 @@ module.exports = {
 	name: 'prune',
 	description: 'Prune up to 99 messages.',
 	execute(message, args) {
+		args.shift();
 		if (message.member.permissions.has("MANAGE_MESSAGES")) {
 			const amount = parseInt(args[0]) + 1;
 			if (isNaN(amount) || !amount || amount <= 1 || amount > 100) {
