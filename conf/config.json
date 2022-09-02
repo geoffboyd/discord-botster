@@ -1,6 +1,5 @@
 {
-  "token": "NzI0ODA2OTkxOTQ3NDk3NTU0.Xw5wBg.mGjB2_GyFXjEfTOrLvJ-PQUn35E",
-  "owner": "337754365576216588",
+  "token": "bot_token",
+  "owner": "owner_discord_id",
   "prefix": "."
 }
-
