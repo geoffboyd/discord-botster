@@ -7,7 +7,7 @@
 |_.__/ \___/ \__|___/\__\___|_|   
 
 ```                                
-# twitch-botster v0.9
+# discord-botster v0.9
 Chatbot for Discord
 
 ## Installation
