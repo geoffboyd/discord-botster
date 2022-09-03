@@ -5,7 +5,7 @@
 | '_ \ / _ \| __/ __| __/ _ \ '__|
 | |_) | (_) | |_\__ \ ||  __/ |   
 |_.__/ \___/ \__|___/\__\___|_|   
-
+      powered by Discord.JS v14
 ```                                
 # discord-botster v1.0rc
 Chatbot for Discord
