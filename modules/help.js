@@ -1,11 +1,11 @@
 const config = require("../conf/config.json");
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'help',
   description: 'Display Commands',
   execute(msg, args) {
-    const helpMessageEmbed = new MessageEmbed()
+    const helpMessageEmbed = new EmbedBuilder()
                                     .setColor(0xa34100)
                                     .setTitle('botster command list')
                                     .addFields(

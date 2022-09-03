@@ -1,19 +1,24 @@
 {
-  "name": "botster",
-  "version": "1.0.0rc",
-  "description": "A chatbot for Twitch",
-  "main": "index.js",
+  "name": "discord-botster",
+  "version": "0.9.0",
+  "description": "Chatbot for Discord",
+  "main": "discord-botster.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "boydster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geoffboyd/discord-botster.git"
+  },
+  "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geoffboyd/discord-botster/issues"
+  },
+  "homepage": "https://github.com/geoffboyd/discord-botster#readme",
   "dependencies": {
-    "@iamtraction/google-translate": "^1.1.2",
-    "better-sqlite3": "^7.1.1",
-    "discord.js": "^13.4.0",
-    "markovchain": "^1.0.2",
-    "urban-dictionary": "^3.0.2",
-    "wikijs": "^6.3.2"
+    "better-sqlite3": "^7.6.2",
+    "discord.js": "^14.3.0",
+    "markovchain": "^1.0.2"
   }
 }
