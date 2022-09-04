@@ -28,7 +28,7 @@ The default prefix to send a bot command is `.`. You can change that in `./conf/
 - `.coin` - Flips a coin.
 - `.collatz [number]` - Solves the [Collatz Conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture) for a given number.
 - `.dbremove [row number]` - When you use any of the info commands (8ballinfo, fcinfo, insultinfo), they tell you the database row that the response is stored in. Server owners can remove responses by using this command. Doesn't work for responses labeled "Global".
-- `.deadcat` - Inside joke here. DEADCAT DOES NOTHING. But... edit `./modules/secret.json` to include your Discord ID and the Discord ID of a close friend that enjoys harmless pranks.
+- `.deadcat` - Inside joke here. DEADCAT DOES NOTHING. But... edit `./config/secret.json` to include the Discord ID of a close friend that enjoys harmless pranks.
 - `.dice` - Rolls a 6-sided die by default. If you add a number to the command, like `.8ball 20`, it rolls a die with the specified number of sides.
 - `.draconic` - Translate text from English into Draconic.
 - `.fortune` - Open a fortune cookie, see your fortune.
