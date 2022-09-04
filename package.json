@@ -1,6 +1,6 @@
 {
   "name": "discord-botster",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Chatbot for Discord",
   "main": "discord-botster.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/geoffboyd/discord-botster.git"
   },
-  "author": "",
+  "author": "boydster",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/geoffboyd/discord-botster/issues"
