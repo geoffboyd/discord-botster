@@ -4,10 +4,9 @@ module.exports = {
   name: 'dbremove',
   description: 'Delete something from the userinputs database',
   execute(msg, args) {
-    console.log(msg.member.permissions.has(PermissionsBitField.Flags.Administrator));
-    if (!msg.member.permissions.has(PermissionsBitField.Flags.Administrator)) { return msg.channel.send('Only admins can use this function.'); }
-    if (isNaN(args[0])) { return msg.channel.send("You didn't enter an ID number"); }
+    if (!msg.member.permissions.has(PermissionsBitField.Flags.Administrator, true)) { return msg.channel.send('Only admins can use this function.'); }
     args.shift();
+    if (isNaN(args[0])) { return msg.channel.send("You didn't enter an ID number"); }
     const SQLite = require("better-sqlite3");
     const db = new SQLite('./db/userinputs.sqlite');
     // Check if the table "userinputs" exists.
