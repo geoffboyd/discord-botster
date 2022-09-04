@@ -1,9 +1,10 @@
+const { owner } = require("../conf/config.json");
+
 module.exports = {
 	name: 'reload',
 	description: 'Reloads a command',
 	args: true,
 	execute(msg, args, commandNames) {
-		const { owner } = require("./secret.json");
 		if (msg.author.id !== owner) { return msg.reply("https://media.giphy.com/media/VdWkLbTcqmw324kYFL/giphy.gif") }
 		if (!args[1]) { return msg.channel.send("You didn't provide a command name to reload"); }
 		const command = args[1].toLowerCase();
