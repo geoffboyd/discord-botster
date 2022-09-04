@@ -59,8 +59,13 @@ module.exports = {
                                         inline: true,
                                       },
                                       {
-                                        name: `${config.prefix}slap [someone]`,
-                                        value: 'Slaps the person you tag',
+                                        name: `${config.prefix}coin`,
+                                        value: 'Flip a coin',
+                                        inline: true,
+                                      },
+                                      {
+                                        name: `${config.prefix}collatz [number]`,
+                                        value: 'Solves the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture)',
                                         inline: true,
                                       },
                                       {
@@ -69,8 +74,13 @@ module.exports = {
                                         inline: true,
                                       },
                                       {
-                                        name: `${config.prefix}coin`,
-                                        value: 'Toss a coin',
+                                        name: `${config.prefix}draconic`,
+                                        value: 'English-to-Draconic translator',
+                                        inline: true,
+                                      },
+                                      {
+                                        name: `${config.prefix}josephus [number] [skips]`,
+                                        value: 'Solves the [Josephus problem](https://en.wikipedia.org/wiki/Josephus_problem). Optionally change number of skips.',
                                         inline: true,
                                       },
                                       {
@@ -78,6 +88,22 @@ module.exports = {
                                         value: 'Rick Roll someone',
                                         inline: true,
                                       },
+                                      {
+                                        name: `${config.prefix}slap [someone]`,
+                                        value: 'Slaps the person you tag',
+                                        inline: true,
+                                      },
+                                      {
+                                        name: '\u200b',
+                                        value: '\u200b',
+                                        inline: true,
+                                      },
+                                      {
+                                        name: `${config.prefix}wookiee`,
+                                        value: 'English-to-Wookiee translator',
+                                        inline: true,
+                                      },
+                                      { name: '\u200B', value: '\u200B' },
                                       {
                                         name: '__Admin & Mod Commands__',
                                         value: ' - *Privileged users only*',
