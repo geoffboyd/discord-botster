@@ -1,7 +1,12 @@
+const { PermissionsBitField } = require('discord.js');
+
 module.exports = {
   name: 'dbremove',
   description: 'Delete something from the userinputs database',
   execute(msg, args) {
+    console.log(msg.member.permissions.has(PermissionsBitField.Flags.Administrator));
+    if (!msg.member.permissions.has(PermissionsBitField.Flags.Administrator)) { return msg.channel.send('Only admins can use this function.'); }
+    if (isNaN(args[0])) { return msg.channel.send("You didn't enter an ID number"); }
     args.shift();
     const SQLite = require("better-sqlite3");
     const db = new SQLite('./db/userinputs.sqlite');
@@ -15,8 +20,6 @@ module.exports = {
       db.pragma("synchronous = 1");
       db.pragma("journal_mode = wal");
     }
-    if (!msg.member.roles.cache.has('ADMINISTRATOR')) { return msg.channel.send('Only admins can use this function.'); }
-    if (isNaN(args[0])) { return msg.channel.send("You didn't enter an ID number"); }
     const item = db.prepare("SELECT * FROM userinputs WHERE row = ?;").get(args[0]);
     if (item.channel !== msg.guild.id) { return msg.channel.send("You can only delete items from this server."); }
     db.prepare("DELETE FROM userinputs WHERE row = ?").run(args[0]);
