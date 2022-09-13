@@ -1,16 +1,38 @@
+// Let's grab all the stuff we need to include from elsewhere
 const { ChannelType } = require('discord.js');
 const { prefix } = require('../conf/config.json');
 const SQLite = require("better-sqlite3");
 const db = new SQLite('./db/userinputs.sqlite');
 const fs = require('fs');
 const MarkovChain = require('markovchain');
+
+// Checking for commands and building out arrays for general use commands and admin-only commands
+// We'll pass this all along to the help commands too, so it can dynamically build our help message
 const commandFiles = fs.readdirSync('./modules/').filter(file => file.endsWith('.js'));
-let commandNames = [];
+let generalCommands = [];
+let adminCommands = [];
+let allCommands = [generalCommands, adminCommands];
 for (const file of commandFiles) {
   const command = require(`../modules/${file}`);
-  commandNames.push(file.replace('.js', ''));
+  if (!command.visible) { continue; }
+  let commandField = { name: command.name, value: command.description, inline: true }
+  if (command.adminOnly) {
+    adminCommands.push(commandField)
+  } else {
+    generalCommands.push(commandField)
+  }
 }
 
+// This is going to clean up the presentation of our help commands
+for (const commandList of allCommands) {
+  if (commandList.length%3 === 1) {
+    commandList.splice(commandList.length, 0, { name: '\u200B', value: '\u200B', inline: true });
+    commandList.splice(commandList.length-2, 0, { name: '\u200B', value: '\u200B', inline: true })
+  }
+  if (commandList.length%3 === 2) {
+    commandList.splice(commandList.length-1, 0, { name: '\u200B', value: '\u200B', inline: true });
+  }
+}
 
 // Function to write chat messages to the database, CURRENTLY NOT WORKING
 function chatLog(channel, text, from) {
@@ -30,20 +52,23 @@ function chatLog(channel, text, from) {
     addInputs.run(chatalogObject);
 }
 
+// Time for the main event. We received a message. It's go time!
 module.exports = {
 	name: 'messageCreate',
 	once: false,
 	execute(message) {
+    // Guard clauses. If we get a message from a bot, ignore it. Same for messages outside of text channels.
     if (message.channel.type !== ChannelType.GuildText) { return };
     if (message.author.bot) { return };
+
+    // Grab some important bits of info and section it out for later
     const guild = message.guild.id;
     const channel = message.channel.id;
     const content = message.content;
     let args = content.split(' ');
     let botName = message.guild.members.me.displayName
 
-    // Markov chain
-    let wordSalad = new MarkovChain(db.prepare(`SELECT content FROM chats WHERE channel = '${guild}' ORDER BY RANDOM();`).pluck().all().join(' '));
+    // Some important sensors for our gibberish triggers
     const triggerWords = [botName.toLowerCase(), 'audio', 'tech', 'excuse'];
     const randomFuckery = Math.ceil(Math.random()*30);
 
@@ -53,8 +78,9 @@ module.exports = {
       chatLog(channel, content, message.author.id);;
       if (randomFuckery !== 10 && !triggerWords.some(e => message.content.toLowerCase().includes(e))) { return };
     }
+    // No prefix, but someone said the botName and/or randomFuckery is afoot? Markov chain triggers here
     if (!content.startsWith(prefix) && ((content.toLowerCase().includes(botName.toLowerCase()) || randomFuckery === 10))) {
-      //Markov chain triggers here
+      let wordSalad = new MarkovChain(db.prepare(`SELECT content FROM chats WHERE channel = '${guild}' ORDER BY RANDOM();`).pluck().all().join(' '));
       let markovArgs = content.split(' ');
       let startWord = message.author.username;
       let phraseLength = (Math.ceil(Math.random()*((markovArgs.length + 10)*2)));
@@ -82,14 +108,6 @@ module.exports = {
       return
     }
 
-    let lowerCaseArgs = content.trim().toLowerCase().split(' ');
-    let commandAttempt = lowerCaseArgs[0].substring(1);
-
-    // Still need to rewrite the function to count how many servers I'm active on
-/*
-     if (commandAttempt === 'servers') { return client.channel.send('Right now, I am active on ' + client.guilds.cache.size + ' servers.'); }
-*/
-
     if (content.includes('audio') || content.includes('tech') || content.includes('excuse')) {
       let thisCommand = require(`../modules/jargon.js`);
       let type = content.includes('audio') ? 'audio'
@@ -98,8 +116,11 @@ module.exports = {
       return thisCommand.execute(message, args, type);
     }
 
-    if (!commandNames.includes(commandAttempt)){ return console.log('\x1b[31m%s\x1b[0m', `${message.author.username} attempted to use a command that doesn't exist: ${commandAttempt}`) }
+    // If we made it this far, someone is probably trying to run a command. Let's see if we can find it.
+    let commandAttempt = content.trim().toLowerCase().split(' ').shift().substring(1);
+    if (!generalCommands.find(o => o.name === commandAttempt) && !adminCommands.find(o => o.name === commandAttempt)) { return console.log('\x1b[31m%s\x1b[0m', `${message.author.username} attempted to use a command that doesn't exist: ${commandAttempt}`) }
+    // Found it? Time to run it.
     const commandToRun = require(`../modules/${commandAttempt}.js`);
-    commandToRun.execute(message, args, commandNames);
+    commandToRun.execute(message, args, generalCommands, adminCommands);
 	},
 };

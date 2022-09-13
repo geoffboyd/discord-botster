@@ -1,129 +1,40 @@
-const config = require("../../conf/discConfig.json");
+const config = require("../conf/config.json");
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'help',
   description: 'Display Commands',
-  execute(msg, args) {
-    const helpMessageEmbed = new EmbedBuilder()
+  adminOnly: false,
+  visible: true,
+  execute(message, args, generalCommands, adminCommands) {
+    // If we have too many commands in the list, our embed will fail. 25 is the max, and I'm using 3 already, so 22 is the max we can allow in the array.
+    // If anyone has too many commands in their list, maybe add another flag to each module to categorize them into groups. That's on you.
+    if (generalCommands.length > 22) {
+      let genCommandList = [];
+      for (let command of generalCommands) {
+        genCommandList.push(command.name)
+      }
+      return message.channel.send(`Too many commands for me to embed! I'll just provide a list.\n\n${genCommandList.join(', ')}`)
+    }
+
+    let helpMessageEmbed = new EmbedBuilder()
                                     .setColor(0xa34100)
                                     .setTitle('botster command list')
+                                    .setThumbnail('https://i.postimg.cc/3r1s23LS/botster.png')
                                     .addFields(
                                       {
                                         name: '__General Commands__',
                                         value: ' - *These can be used by anyone*',
                                       },
-                                      {
-                                        name: `${config.prefix}8ball`,
-                                        value: 'Ask the mystical Magic 8 Ball for guidance',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}8balladd`,
-                                        value: 'Add new predictions to the Magic 8 Ball',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}8ballinfo`,
-                                        value: 'Shows details about the most recent 8ball fortune',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}fortune`,
-                                        value: 'Open a fortune cookie',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}fcadd`,
-                                        value: 'Add new fortunes to the fortune cookie list',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}fcinfo`,
-                                        value: 'Shows details about the most recent Fortune cookie fortune',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}insult [someone]`,
-                                        value: 'Insults the person you tag',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}insultadd`,
-                                        value: 'Add new insults',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}insultinfo`,
-                                        value: 'Shows details about the most recent insult',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}coin`,
-                                        value: 'Flip a coin',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}collatz [number]`,
-                                        value: 'Solves the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture)',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}draconic`,
-                                        value: 'English-to-Draconic translator',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}josephus [number] [skips]`,
-                                        value: 'Solves the [Josephus problem](https://en.wikipedia.org/wiki/Josephus_problem). Optionally change number of skips.',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}madlibs`,
-                                        value: 'Feed botster a MadLib using `(noun)`, `(verb)`, `(adjective)`, or `(adverb)`',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}roll`,
-                                        value: 'Roll a die. Optionally choose number of sides or add a modifier.',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}rr [someone]`,
-                                        value: 'Rick Roll someone',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}slap [someone]`,
-                                        value: 'Slaps the person you tag',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}wookiee`,
-                                        value: 'English-to-Wookiee translator',
-                                        inline: true,
-                                      },
+                                    )
+                                    .addFields(generalCommands)
+                                    .addFields(
                                       { name: '\u200B', value: '\u200B' },
                                       {
                                         name: '__Admin & Mod Commands__',
-                                        value: ' - *Privileged users only*',
+                                        value: `Try \`${prefix}modhelp\` for a list of privileged commands`,
                                       },
-                                      {
-                                        name: `${config.prefix}prune [number]`,
-                                        value: 'Deletes the previous [number] messages',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}kick [@member]`,
-                                        value: 'Kicks the tagged member',
-                                        inline: true,
-                                      },
-                                      {
-                                        name: `${config.prefix}dbremove [message ID#]`,
-                                        value: 'Delete a fortune, insult, or 8 Ball prediction from the database',
-                                        inline: true,
-                                      },
-                                  	)
-    msg.channel.send({ embeds: [helpMessageEmbed] });
+                                    )
+    message.channel.send({ embeds: [helpMessageEmbed] });
   },
 };

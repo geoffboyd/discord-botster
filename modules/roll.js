@@ -8,10 +8,12 @@
       * .roll 3d12 +6
 */
 
-const { prefix } = require('../../conf/ircConfig.json');
+const { prefix } = require('../conf/config.json');
 module.exports = {
   name: 'roll',
-  description: 'Dice roller',
+  description: 'Roll a die. Optionally choose number of sides or add a modifier.',
+  adminOnly: false,
+  visible: true,
   execute(msg, args) {
     let numberOfDice = 1;
     let numberOfSides = 6;
@@ -34,8 +36,10 @@ module.exports = {
     }
     if (args[0].includes('d')) {
         args[0] = args[0].split('d');
-        numberOfDice = (args[0][0] && Number(args[0][0]) == args[0][0] && Math.abs(Number(args[0][0])) < 1000) ? Math.abs(Number(args[0][0])) : 1;
-        numberOfSides = (args[0][1] && Number(args[0][1]) == args[0][1] && Math.abs(Number(args[0][1])) < 100000) ? Math.abs(Number(args[0][1])) : 6;
+        numberOfDice = (args[0][0] && Number(args[0][0]) == args[0][0] && Math.abs(Number(args[0][0])) < 1001) ? Math.abs(Number(args[0][0])) : 1;
+        numberOfSides = (args[0][1] && Number(args[0][1]) == args[0][1] && Math.abs(Number(args[0][1])) < 100001) ? Math.abs(Number(args[0][1])) : 6;
+        if (args[0][0] > 1000) { bot.say(channel, 'Too many dice, max is 100. Defaulting to 1 die for now.'); }
+        if (args[0][1] > 100000) { bot.say(channel, 'Too many sides, max is 100000. Defaulting to 6 sides for now.'); }
         args = [numberOfSides, numberOfDice];
     } else {
       numberOfSides = Number(args[0]) == args[0] && Math.abs(Number(args[0])) < 100000 ? Math.abs(Number(args[0])) : 6;

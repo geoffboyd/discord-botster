@@ -6,7 +6,7 @@
 | |_) | (_) | |_\__ \ ||  __/ |
 |_.__/ \___/ \__|___/\__\___|_|
 
-Discord botster v1.0rc using DiscordJS V14
+Discord botster v1.0 using DiscordJS V14
 */
 
 const fs = require('fs');
@@ -27,7 +27,7 @@ const client = new Client({
 
 const eventFiles = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));
 
-// I didn't write this function, it is plagiarismed.
+// I didn't write this, it 100% is plagiarismed.
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {

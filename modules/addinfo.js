@@ -1,4 +1,8 @@
 module.exports = {
+  name: 'addinfo',
+  description: 'Add Info to database',
+  adminOnly: true,
+  visible: false,
   contentinfo(msg, args, contentType, phrase) {
     const SQLite = require("better-sqlite3");
     const db = new SQLite('./db/userinputs.sqlite');
